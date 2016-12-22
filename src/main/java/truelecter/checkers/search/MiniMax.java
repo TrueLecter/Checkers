@@ -20,7 +20,7 @@ public class MiniMax extends IA<MoveChain> {
     private Difficulty difficulty = new Difficulty() {
         @Override
         public int getDepth() {
-            return 999;
+            return 4;
         }
     };
 

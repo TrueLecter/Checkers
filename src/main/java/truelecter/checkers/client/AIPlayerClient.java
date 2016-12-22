@@ -10,6 +10,7 @@ import checkers.pojo.checker.CheckerColor;
 import checkers.pojo.checker.Position;
 import checkers.pojo.step.Step;
 import checkers.pojo.step.StepUnit;
+import com.sheremet.checkers.client.BoardRenderer;
 import truelecter.checkers.board.Board;
 import truelecter.checkers.board.BoardPrinter;
 import truelecter.checkers.board.MoveChain;
@@ -43,12 +44,15 @@ public class AIPlayerClient {
             System.out.println("Using default port: 3000");
             port = 3000;
         }
+//        String ip = args.length > 0 ? args[0] : "192.168.0.100";
         String ip = args.length > 0 ? args[0] : "localhost";
 
         //final MiniMax_Old mm = new MiniMax_Old(new Oracle());
         final MiniMax mm = new MiniMax(new Oracle());
         final BooleanWrapper isWhite = new BooleanWrapper(false);
         final BooleanWrapper asWhiteFirstMoveDone = new BooleanWrapper(false);
+
+        final BoardRenderer visual = new BoardRenderer();
 
         Client client = new Client(ip, port, new CheckersBot() {
             @Override
@@ -62,9 +66,9 @@ public class AIPlayerClient {
             public Step next(checkers.pojo.board.Board board) {
                 System.out.println("My turn");
                 Board b = translate(board, isWhite.value, myColor);
-                System.out.println(b);
-                System.out.println(b.state((byte) -1));
-                System.out.println(b.movesFor((byte) -1));
+//                System.out.println(b);
+//                System.out.println(b.state((byte) -1));
+//                System.out.println(b.movesFor((byte) -1));
                 System.out.println(BoardPrinter.print(board));
 //                if (isWhite.value && !asWhiteFirstMoveDone.value) {
 //                    asWhiteFirstMoveDone.value = true;
@@ -89,6 +93,7 @@ public class AIPlayerClient {
             @Override
             public void show(checkers.pojo.board.Board board) {
                 BoardPrinter.print(board);
+                visual.render(board);
             }
         });
         client.run();
